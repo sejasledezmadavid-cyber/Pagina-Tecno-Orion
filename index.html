@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tecno Orion — Tienda</title>
+    <link rel="icon" href="img/logo orion.png" type="image/png" />
+
+    <!-- Google Fonts: Orbitron para títulos gamer, Rajdhani para cuerpo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- =============================================
+         NAVBAR
+         - Logo + nombre de marca
+         - Links de navegación
+         - Ícono de carrito con badge (contador)
+         - Botón hamburguesa para móvil
+    ============================================= -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <img src="img/logo orion.png" alt="Logo Orion" class="brand-icon" />
+        <span class="brand-name">Tecno Orion</span>
+      </div>
+
+      <!-- Botón hamburguesa (solo visible en móvil) -->
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li>
+          <a href="#" class="nav-link active" data-view="home">Inicio</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-view="menu">Catálogo</a>
+        </li>
+        <li>
+          <!-- Carrito con badge de cantidad -->
+          <a href="#" class="nav-link nav-cart-link" data-view="cart">
+            <svg
+              class="cart-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
+            </svg>
+            Carrito
+            <span class="cart-badge" id="cart-count">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-view="contact">Contacto</a>
+        </li>
+
+        <li class="auth-item">
+          <a href="#" class="nav-link" data-view="register">Registrar</a>
+        </li>
+
+        <li class="auth-item">
+          <a href="#" class="nav-link" data-view="login">Login</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- =============================================
+         CONTENIDO PRINCIPAL (SPA)
+         Cada sección es una "vista" que se muestra
+         u oculta según el link activo del navbar.
+    ============================================= -->
+    <main>
+      <!-- VISTA: INICIO -->
+      <section id="view-home" class="view active">
+        <div class="hero">
+          <div class="hero-text">
+            <span class="hero-tag">🖥️ Bienvenido</span>
+            <h1 class="hero-title">
+              tu PC tiene más historias<br />
+              velocidad, brillo y muchas más victorias
+            </h1>
+            <p class="hero-subtitle">
+              Te ofrecemos todo lo que tu computadora necesita. Contamos con una
+              amplia variedad de accesorios y repuestos, además de productos de
+              limpieza para mantener tus equipos en óptimas condiciones. También
+              brindamos asesoramiento personalizado para el cuidado y
+              mantenimiento de tus dispositivos. Si presentas algún
+              inconveniente, contamos con servicio técnico para ayudarte a
+              solucionarlo.
+            </p>
+            <a href="#" class="btn btn-primary" data-view="menu">
+              Ver catalogo
+            </a>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-circle">
+              <img
+                src="img/logo orion.png"
+                alt="Logo Orion"
+                class="hero-logo-img"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjetas de características -->
+        <div class="features">
+          <div class="feature-card">
+            <span class="feature-icon">🖱️</span>
+            <h3>Piesas Originales</h3>
+            <p>Tenemos piezas de toda marca y tipo</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">👨‍💻</span>
+            <h3>Servivio Tecnico</h3>
+            <p>Contamos con personal capasitado</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">📦</span>
+            <h3>Entrega Rápida</h3>
+            <p>Tenemos servicio de delivery</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISTA: MENÚ / PRODUCTOS -->
+      <section id="view-menu" class="view">
+        <div class="section-header">
+          <h2>Nuestro Catalogo</h2>
+          <p>Selecciona el producto que deseas</p>
+        </div>
+        <!-- Las tarjetas de productos se generan con JavaScript -->
+        <div id="products-container" class="products-container"></div>
+      </section>
+
+      <!-- VISTA: CARRITO -->
+      <section id="view-cart" class="view">
+        <div class="section-header">
+          <h2>Tu Carrito</h2>
+          <p>Revisa y confirma tu pedido</p>
+        </div>
+        <!-- El contenido del carrito se genera con JavaScript -->
+        <div id="cart-container"></div>
+      </section>
+
+      <!-- VISTA: CONTACTO -->
+      <section id="view-contact" class="view">
+        <div class="section-header">
+          <h2>Contacto</h2>
+          <p>Estamos para ayudarte</p>
+        </div>
+
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-group">
+            <label for="contact-name">Nombre Completo</label>
+            <input type="text" id="contact-name" placeholder="Ej. Juan Perez" />
+            <small class="error-msg" id="error-name"></small>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Correo Electronico</label>
+            <input
+              type="email"
+              id="contact-email"
+              placeholder="Ej. juan@email.com"
+            />
+            <small class="error-msg" id="error-email"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message">Mensaje</label>
+            <textarea
+              name=""
+              id="contact-message"
+              rows="4"
+              placeholder="En que podemos ayudarte?"
+            ></textarea>
+            <small class="error-msg" id="error-message"></small>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+          <p id="form-success" class="success-msg"></p>
+        </form>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <span class="contact-icon">📍</span>
+            <h3>Dirección</h3>
+            <p>Av. Principal 123, Ciudad</p>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon">📞</span>
+            <h3>Teléfono</h3>
+            <p>+591 74330341</p>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon">🕐</span>
+            <h3>Horario</h3>
+            <p>Lun–Vie: 7am – 8pm</p>
+          </div>
+        </div>
+      </section>
+      <!-- Vista: AUTH (Login + Registro) -->
+      <section id="view-auth" class="view">
+        <div class="section-header">
+          <h2>Mi Cuenta</h2>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login">Ingresar</button>
+          <button class="auth-tab" data-tab="register">Registrarse</button>
+        </div>
+
+        <!-- Panel Login -->
+        <div id="auth-panel-login" class="auth-panel active">
+          <form id="login-form" class="contact-form" novalidate>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="login-email" placeholder="tu@email.com" />
+            </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                id="login-password"
+                placeholder="Tu contraseña"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+            <p id="login-error" class="error-msg"></p>
+            <p id="login-success" class="success-msg"></p>
+          </form>
+        </div>
+
+        <!-- Panel Registro -->
+        <div id="auth-panel-register" class="auth-panel">
+          <form id="register-form" class="contact-form" novalidate>
+            <div class="form-group">
+              <label>Nombre completo</label>
+              <input
+                type="text"
+                id="reg-nombre"
+                placeholder="Juanito Alcachofa"
+              />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                id="reg-email"
+                placeholder="juanito@email.com"
+              />
+            </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                id="reg-password"
+                placeholder="Mínimo 6 caracteres"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Crear cuenta</button>
+            <p id="register-error" class="error-msg"></p>
+            <p id="register-success" class="success-msg"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- =============================================
+         FOOTER
+    ============================================= -->
+    <footer>
+      <p>© 2026 Tecno Orion — Desarrollado por <strong>David Sejas</strong></p>
+    </footer>
+
+    <!-- 1. Libreria CDN: define la variable global 'supabase' -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 2. Tu cliente: usa 'supabase' para crear 'db' -->
+    <script src="js/supabase-client.js?v=20260521-2"></script>
+    <!-- 3. Auth: usa 'db' y define funciones de login/registro -->
+
+    <script src="js/auth.js?v=20260521-2"></script>
+    <!-- 4. App: usa 'db' y funciones de auth -->
+    <script src="js/app.js?v=20260521-3"></script>
+    <!-- Script para el menú hamburguesa (no toca la lógica del carrito) -->
+    <script>
+      // Abrir/cerrar menú hamburguesa en móvil
+      const navToggle = document.getElementById("navToggle");
+      navToggle.addEventListener("click", function () {
+        document.getElementById("navLinks").classList.toggle("open");
+        navToggle.classList.toggle("active");
+      });
+
+      // Botón "Ver Menú" del hero
+      document
+        .querySelector('.btn[data-view="menu"]')
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          navegarA("menu");
+        });
+    </script>
+  </body>
+</html>

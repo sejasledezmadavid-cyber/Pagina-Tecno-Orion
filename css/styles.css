@@ -1,0 +1,1308 @@
+/* ================================================
+   TECNO ORION — Estilos Gamer
+   Organización:
+   1. Variables y Reset
+   2. Tipografía base
+   3. Navbar
+   4. Vistas / Layout principal
+   5. Hero (Inicio)
+   6. Features (tarjetas de inicio)
+   7. Productos (cards del menú)
+   8. Carrito
+   9. Contacto
+   10. Footer
+   11. Botones
+   12. Animaciones
+   13. Responsive (mobile-first)
+================================================ */
+
+/* ================================================
+   1. VARIABLES CSS Y RESET — TEMA GAMER
+================================================ */
+:root {
+  /* Paleta gamer: oscuro + neones */
+  --color-primary: #0ff;           /* cian neón principal */
+  --color-primary-dk: #00e5ff;     /* cian más brillante para títulos */
+  --color-accent: #bf00ff;         /* púrpura neón para acentos */
+  --color-accent2: #ff003c;        /* rojo neón secundario */
+  --color-light: #0a0a0f;          /* fondo casi negro */
+  --color-surface: #0f0f1a;        /* tarjetas oscuras */
+  --color-surface2: #13131f;       /* superficie alternativa */
+  --color-text: #e0e0ff;           /* texto principal claro */
+  --color-text-soft: #8888aa;      /* texto secundario apagado */
+  --color-border: rgba(0, 255, 255, 0.2);
+
+  /* Éxito (botón agregar) */
+  --color-success: #00c853;
+  --color-success-lt: #69f0ae;
+
+  /* Sombras neón */
+  --shadow-sm: 0 2px 8px rgba(0, 255, 255, 0.15);
+  --shadow-md: 0 8px 24px rgba(0, 255, 255, 0.2);
+  --shadow-lg: 0 16px 40px rgba(0, 255, 255, 0.3);
+  --shadow-neon: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.2);
+  --shadow-purple: 0 0 20px rgba(191, 0, 255, 0.5), 0 0 40px rgba(191, 0, 255, 0.2);
+
+  /* Bordes redondeados */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
+
+  /* Transición estándar */
+  --transition: 0.3s ease;
+}
+
+/* Reset: elimina márgenes y padding por defecto del navegador */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================================================
+   2. TIPOGRAFÍA BASE
+   - Orbitron: títulos gamer (futurista)
+   - Rajdhani: cuerpo (legible y tech)
+================================================ */
+body {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-light);
+  /* Fondo con cuadrícula estilo HUD */
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Orbitron", sans-serif;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ================================================
+   3. NAVBAR — Gamer HUD style
+================================================ */
+.navbar {
+  position: sticky;
+  top: 16px;
+  z-index: 100;
+
+  width: 92%;
+  max-width: 1100px;
+  margin: 16px auto 0;
+  padding: 14px 24px;
+
+  background: rgba(10, 10, 20, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-neon);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Logo + nombre */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+/* Logo estaba 40 */
+.brand-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+/* Lista de links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Cada link de navegación */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--color-text-soft);
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition:
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    text-shadow var(--transition);
+  position: relative;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Hover: brillo neón */
+.nav-link:hover {
+  background: rgba(0, 255, 255, 0.08);
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+/* Link activo: borde neón */
+.nav-link.active {
+  background: rgba(0, 255, 255, 0.1);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.9);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3), inset 0 0 12px rgba(0, 255, 255, 0.05);
+}
+
+.nav-link.active:hover {
+  background: rgba(0, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Ícono SVG del carrito */
+.cart-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Badge neón con el número de items */
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background: var(--color-accent2);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 8px rgba(255, 0, 60, 0.8);
+  transition: transform 0.2s ease;
+}
+
+/* Cuando el badge cambia, "rebota" (activado por JS) */
+.cart-badge.bump {
+  transform: scale(1.4);
+}
+
+/* Botón hamburguesa (oculto en desktop) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.6);
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+/* Animación X al abrir el menú */
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ================================================
+   4. LAYOUT PRINCIPAL
+   - main contiene todas las vistas
+   - .view se oculta/muestra con JS (clase "active")
+================================================ */
+main {
+  width: 92%;
+  max-width: 1100px;
+  margin: 24px auto 32px;
+}
+
+/* Todas las vistas están ocultas por defecto */
+.view {
+  display: none;
+  animation: fadeSlideIn 0.35s ease forwards;
+}
+
+/* Solo la vista activa se muestra */
+.view.active {
+  display: block;
+}
+
+/* Encabezado de sección (título + subtítulo) */
+.section-header {
+  margin-bottom: 32px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
+/* Línea decorativa neón bajo el título */
+.section-header h2::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 4px;
+  margin-top: 8px;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.section-header p {
+  color: var(--color-text-soft);
+  font-size: 1rem;
+  margin-top: 12px;
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* ================================================
+   5. HERO — Gamer style
+================================================ */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 56px 48px;
+  box-shadow: var(--shadow-neon);
+  border: 1px solid var(--color-border);
+  margin-bottom: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Línea de escaneo decorativa */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(
+    circle,
+    rgba(191, 0, 255, 0.12),
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-accent), transparent);
+  opacity: 0.6;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 520px;
+}
+
+/* Etiqueta pequeña sobre el título */
+.hero-tag {
+  display: inline-block;
+  background: rgba(0, 255, 255, 0.1);
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: "Rajdhani", sans-serif;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.hero-title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: #fff;
+  margin-bottom: 16px;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+.hero-title span {
+  color: var(--color-primary);
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+}
+
+.hero-subtitle {
+  color: var(--color-text-soft);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 420px;
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* Elemento visual decorativo del hero */
+.hero-visual {
+  flex-shrink: 0;
+}
+
+/* Círculo gamer del hero */
+.hero-circle {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.15),
+    rgba(191, 0, 255, 0.15)
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-neon), var(--shadow-purple);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  animation: floatUpDown 3s ease-in-out infinite;
+}
+
+.hero-emoji {
+  font-size: 5rem;
+  filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.6));
+}
+
+.hero-logo-img {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.6));
+}
+
+/* ================================================
+   6. FEATURES — Tarjetas gamer
+================================================ */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-neon);
+  border-color: rgba(0, 255, 255, 0.4);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.4));
+}
+
+.feature-card h3 {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.feature-card p {
+  font-size: 0.88rem;
+  color: var(--color-text-soft);
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* ================================================
+   7. PRODUCTOS — Cards gamer
+================================================ */
+.products-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Tarjeta de producto */
+.product-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+  position: relative;
+}
+
+.product-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-neon);
+  border-color: rgba(0, 255, 255, 0.4);
+}
+
+.product-card:hover::after {
+  opacity: 1;
+}
+
+/* Área de imagen/emoji del producto */
+.product-image {
+  background: linear-gradient(135deg, #0d0d1a, #1a0d2e);
+  padding: 16px;
+  text-align: center;
+  font-size: 3.5rem;
+  line-height: 1;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+
+.product-img {
+  width: 100%;
+  max-width: 160px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 6px;
+  filter: drop-shadow(0 2px 8px rgba(0, 255, 255, 0.2));
+}
+
+.cart-item-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* Información del producto */
+.product-info {
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 6px;
+}
+
+.product-card h3 {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+/* Descripción del producto */
+.product-description {
+  font-size: 0.88rem;
+  color: var(--color-text-soft);
+  flex: 1;
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* Precio destacado */
+.product-price {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-top: 4px;
+  text-shadow: 0 0 10px rgba(191, 0, 255, 0.6);
+}
+
+/* Botón "Agregar al carrito" */
+.btn-add {
+  margin-top: 12px;
+  padding: 10px 16px;
+  width: 100%;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 255, 255, 0.08);
+  color: var(--color-primary);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-add:hover {
+  background: rgba(0, 255, 255, 0.18);
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.4);
+  border-color: var(--color-primary);
+}
+
+.btn-add:active {
+  transform: scale(0.97);
+}
+
+/* ================================================
+   8. CARRITO DE COMPRAS — Gamer style
+================================================ */
+#cart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Mensaje carrito vacío */
+.cart-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-soft);
+}
+
+.cart-empty-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 16px;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+}
+
+.cart-empty h3 {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+/* Cada item del carrito */
+.cart-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeSlideIn 0.25s ease;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.cart-item:hover {
+  border-color: rgba(0, 255, 255, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+/* Emoji/imagen del item */
+.cart-item-emoji {
+  font-size: 2rem;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #0d0d1a, #1a0d2e);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nombre y precio del item */
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-name {
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-family: "Rajdhani", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cart-item-price {
+  font-size: 0.88rem;
+  color: var(--color-text-soft);
+  margin-top: 2px;
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* Controles de cantidad */
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: rgba(0, 255, 255, 0.05);
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+  line-height: 1;
+}
+
+.qty-btn:hover {
+  background: rgba(0, 255, 255, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.qty-value {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-primary);
+  min-width: 20px;
+  text-align: center;
+  font-family: "Orbitron", sans-serif;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+/* Precio total del item */
+.cart-item-total {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-accent);
+  flex-shrink: 0;
+  min-width: 64px;
+  text-align: right;
+  text-shadow: 0 0 8px rgba(191, 0, 255, 0.5);
+}
+
+/* Resumen del total */
+.cart-summary {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+  margin-top: 8px;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.95rem;
+  color: var(--color-text-soft);
+  font-family: "Rajdhani", sans-serif;
+}
+
+.cart-summary-row:last-of-type {
+  border-bottom: none;
+}
+
+/* Fila del total final */
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.cart-total-label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+}
+
+.cart-total-amount {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+}
+
+/* ================================================
+   9. CONTACTO — Gamer style
+================================================ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.contact-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-neon);
+  border-color: rgba(0, 255, 255, 0.4);
+}
+
+.contact-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.4));
+}
+
+.contact-card h3 {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.contact-card p {
+  font-size: 0.9rem;
+  color: var(--color-text-soft);
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* ================================================
+   10. FOOTER — Gamer style
+================================================ */
+footer {
+  width: 92%;
+  max-width: 1100px;
+  margin: 0 auto 24px;
+  padding: 18px 24px;
+  text-align: center;
+  background: rgba(10, 10, 20, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+footer p {
+  color: var(--color-text-soft);
+  font-size: 0.9rem;
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 1px;
+}
+
+footer strong {
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+/* ================================================
+   11. BOTONES REUTILIZABLES — Gamer style
+================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.btn-primary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3), inset 0 0 12px rgba(0, 255, 255, 0.05);
+}
+
+.btn-primary:hover {
+  background: rgba(0, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.1);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* Botón de checkout neón */
+.btn-checkout {
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px;
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-accent);
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(191, 0, 255, 0.4), inset 0 0 16px rgba(191, 0, 255, 0.05);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.btn-checkout:hover {
+  transform: translateY(-3px);
+  background: rgba(191, 0, 255, 0.1);
+  box-shadow: 0 0 28px rgba(191, 0, 255, 0.6), inset 0 0 20px rgba(191, 0, 255, 0.1);
+  text-shadow: 0 0 8px rgba(191, 0, 255, 0.8);
+}
+
+.btn-checkout:active {
+  transform: scale(0.98);
+}
+
+/* ================================================
+   12. ANIMACIONES — Gamer effects
+================================================ */
+
+/* Entrada suave */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Flotación del hero */
+@keyframes floatUpDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* Pulso neón */
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4);
+  }
+}
+
+/* Escaneo de línea */
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ================================================
+   13. RESPONSIVE — Mobile First
+   Breakpoints:
+   - < 640px  → móvil
+   - 640–1024 → tablet
+   - > 1024   → desktop (estilos base)
+================================================ */
+
+/* TABLET y MÓVIL */
+@media (max-width: 768px) {
+  /* Navbar: mostrar botón hamburguesa */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* Links: se apilan verticalmente y se ocultan */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 20, 0.98);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    box-shadow: var(--shadow-neon);
+  }
+
+  /* Clase "open" la agrega el JS al hacer click en hamburguesa */
+  .nav-links.open {
+    display: flex;
+    animation: fadeSlideIn 0.2s ease;
+  }
+
+  /* El navbar necesita position relative para el menú absoluto */
+  .navbar {
+    position: relative;
+    top: 0;
+    margin: 12px auto;
+  }
+
+  /* Hero: una sola columna */
+  .hero {
+    flex-direction: column;
+    padding: 36px 24px;
+    text-align: center;
+  }
+
+  .hero-subtitle {
+    margin: 0 auto 28px;
+  }
+
+  .hero-circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .hero-emoji {
+    font-size: 3.5rem;
+  }
+
+  /* Productos: tablet */
+  .products-container {
+    gap: 1.5rem;
+  }
+
+  /* Item del carrito: ajuste en pantallas pequeñas */
+  .cart-item {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .cart-item-total {
+    width: 100%;
+    text-align: right;
+  }
+}
+
+/* MÓVIL pequeño */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.3rem;
+  }
+
+  /* Productos: móvil */
+  .products-container {
+    gap: 1rem;
+  }
+
+  .categoria-productos {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem;
+  }
+}
+
+.contact-form {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  max-width: 680px;
+  margin: 0 auto 32px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-family: "Rajdhani", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: rgba(0, 255, 255, 0.03);
+  font-family: "Rajdhani", sans-serif;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+}
+
+.error-msg {
+  display: block;
+  color: var(--color-accent2);
+  margin-top: 4px;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.85rem;
+  text-shadow: 0 0 6px rgba(255, 0, 60, 0.5);
+}
+
+.success-msg {
+  margin-top: 16px;
+  color: var(--color-success-lt);
+  font-weight: 700;
+  font-family: "Rajdhani", sans-serif;
+  text-shadow: 0 0 8px rgba(105, 240, 174, 0.5);
+}
+
+.input-error {
+  border-color: var(--color-accent2) !important;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.3) !important;
+}
+
+/* ================================================
+   AUTH TABS — Gamer style
+================================================ */
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    text-shadow 0.2s;
+  font-family: "Rajdhani", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.auth-tab.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.auth-tab:hover:not(.active) {
+  color: var(--color-text);
+}
+
+.auth-panel {
+  display: none;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.auth-panel.active {
+  display: block;
+}
+
+/* ==========================
+   SECCIONES POR CATEGORÍA
+========================== */
+.categoria-seccion {
+  margin-bottom: 2.5rem;
+}
+
+.categoria-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent, #48ff00);
+}
+
+.categoria-titulo {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.1rem;
+  color: var(--accent, #48ff00);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.categoria-emoji {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.categoria-cantidad {
+  font-size: 0.8rem;
+  color: #888;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.categoria-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
