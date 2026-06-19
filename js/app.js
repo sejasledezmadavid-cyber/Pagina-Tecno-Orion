@@ -11,6 +11,10 @@ function navegarA(vista) {
 
   if (vistaReal === "menu") renderizarProductos();
 
+  if (vistaReal === "admin") {
+    if (typeof inicializarAdmin === "function") inicializarAdmin();
+  }
+
   if (vistaReal === "auth") {
     const tab = vista === "login" || vista === "register" ? vista : "login";
     document
@@ -255,7 +259,10 @@ function escaparHtml(valor) {
 function generarTarjetas(productos) {
   return productos.map((producto) => {
     const nombreImg = escaparHtml(producto.nombre);
-    const imgSrc = `img/${producto.nombre}.png`;
+    // Usar imagen_url de Storage si existe, si no intentar imagen local por nombre
+    const imgSrc = producto.imagen_url
+      ? escaparHtml(producto.imagen_url)
+      : `img/${producto.nombre}.png`;
     return `
     <div class='product-card'>
       <div class='product-image'>
@@ -457,20 +464,23 @@ function renderizarCarrito() {
   });
 
   // Calcular total general
-  const total = carrito.reduce((acc, producto) => {
+  const subtotal = carrito.reduce((acc, producto) => {
     return acc + producto.precio * producto.cantidad;
   }, 0);
+
+  const delivery = subtotal * 0.15;
+  const total = subtotal + delivery;
 
   // Resumen y botón de checkout
   contenedor.innerHTML += `
     <div class="cart-summary">
       <div class="cart-summary-row">
         <span>Subtotal</span>
-        <span>Bs. ${total.toFixed(2)}</span>
+        <span>Bs. ${subtotal.toFixed(2)}</span>
       </div>
       <div class="cart-summary-row">
-        <span>Envío</span>
-        <span>Gratis 🎉</span>
+        <span>Delivery</span>
+        <span>Bs. ${delivery.toFixed(2)}</span>
       </div>
       <div class="cart-total-row">
         <span class="cart-total-label">Total</span>
@@ -478,6 +488,10 @@ function renderizarCarrito() {
       </div>
       <button class="btn-checkout" onclick="confirmarPedido()">
         🛍️ Confirmar Pedido
+      </button>
+      <button class="btn-whatsapp" onclick="confirmarPorWhatsapp()">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Confirmar por WhatsApp
       </button>
     </div>
   `;
@@ -594,10 +608,12 @@ async function confirmarPedido() {
   }
 
   // 2. Calcular total
-  const total = carrito.reduce(
+  const subtotal = carrito.reduce(
     (acc, item) => acc + item.precio * item.cantidad,
     0,
   );
+  const delivery = subtotal * 0.15;
+  const total = subtotal + delivery;
 
   // 3. Insertar en orders
   const { data: pedido, error: e1 } = await db
@@ -639,6 +655,94 @@ async function confirmarPedido() {
     "Pedido #" + pedido.id + " confirmado! Gracias por tu compra.",
     "exito",
   );
+}
+
+function confirmarPorWhatsapp() {
+  if (carrito.length === 0) {
+    mostrarMensaje("El carrito está vacío", "error");
+    return;
+  }
+
+  const subtotal = carrito.reduce(
+    (acc, item) => acc + item.precio * item.cantidad,
+    0
+  );
+  const delivery = subtotal * 0.15;
+  const total = subtotal + delivery;
+
+  // Construir lista de productos con formato compacto
+  const lineas = carrito.map(
+    (item) =>
+      `${item.nombre} x${item.cantidad} - Bs.${(item.precio * item.cantidad).toFixed(2)}`
+  );
+
+  const encabezado = "Hola! Quiero hacer un pedido en Tecno Orion:\n\n";
+  const pie = `\nSubtotal: Bs.${subtotal.toFixed(2)}\nDelivery: Bs.${delivery.toFixed(2)}\nTOTAL: Bs.${total.toFixed(2)}`;
+  const NUMERO = "59174330341";
+  const LIMITE = 1900; // margen de seguridad por debajo del límite de WhatsApp
+
+  // Intentar meter todos los productos en un solo mensaje
+  const mensajeCompleto = encabezado + lineas.join("\n") + pie;
+
+  if (encodeURIComponent(mensajeCompleto).length <= LIMITE) {
+    // Todo entra en un solo mensaje
+    window.open(
+      `https://wa.me/${NUMERO}?text=${encodeURIComponent(mensajeCompleto)}`,
+      "_blank"
+    );
+    // Vaciar carrito
+    carrito = [];
+    guardarCarrito();
+    actualizarContador();
+    renderizarCarrito();
+    return;
+  }
+
+  // Si no entra todo, dividir en partes
+  const partes = [];
+  let parteActual = encabezado;
+  const totalPartes = Math.ceil(lineas.length / 1); // se calcularán dinámicamente
+
+  for (let i = 0; i < lineas.length; i++) {
+    const linea = lineas[i] + "\n";
+    const esUltima = i === lineas.length - 1;
+    const candidato = parteActual + linea + (esUltima ? pie : "");
+
+    if (encodeURIComponent(candidato).length > LIMITE && parteActual !== encabezado) {
+      // Esta parte está llena, cerrarla y empezar otra
+      partes.push(parteActual.trimEnd());
+      parteActual = "(continuación)\n" + linea;
+    } else {
+      parteActual += linea;
+    }
+  }
+
+  // Agregar pie al último trozo
+  parteActual += pie;
+  partes.push(parteActual.trimEnd());
+
+  // Abrir cada parte con un pequeño delay para no bloquear popups
+  partes.forEach((parte, i) => {
+    setTimeout(() => {
+      window.open(
+        `https://wa.me/${NUMERO}?text=${encodeURIComponent(parte)}`,
+        "_blank"
+      );
+    }, i * 800);
+  });
+
+  if (partes.length > 1) {
+    mostrarMensaje(
+      `Se abrirán ${partes.length} ventanas de WhatsApp con tu pedido completo`,
+      "exito"
+    );
+  }
+
+  // Vaciar carrito después de enviar por WhatsApp
+  carrito = [];
+  guardarCarrito();
+  actualizarContador();
+  renderizarCarrito();
 }
 
 function mostrarMensaje(texto, tipo) {

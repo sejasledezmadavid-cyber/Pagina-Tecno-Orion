@@ -195,8 +195,11 @@ function inicializarRegistro() {
   });
 }
 
-function mostrarSeccionSegunRol(_rol) {
-  // Reservado para funciones de admin en el futuro
+function mostrarSeccionSegunRol(rol) {
+  const linkAdmin = document.getElementById("nav-admin-link");
+  if (linkAdmin) {
+    linkAdmin.style.display = rol === "admin" ? "list-item" : "none";
+  }
 }
 
 function actualizarNavbar(usuario) {
@@ -208,7 +211,7 @@ function actualizarNavbar(usuario) {
     navLinks.innerHTML += `
 <li class='auth-item'>
 <span class='nav-user'>
-Hola, ${usuario.nombre} (${usuario.rol})
+Hola, ${usuario.nombre}
 </span>
 </li>
 <li class='auth-item'>

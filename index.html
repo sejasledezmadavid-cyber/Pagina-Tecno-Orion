@@ -66,6 +66,13 @@
           <a href="#" class="nav-link" data-view="contact">Contacto</a>
         </li>
 
+        <!-- Link admin: oculto por defecto, visible solo si rol=admin -->
+        <li id="nav-admin-link" style="display: none">
+          <a href="#" class="nav-link nav-link-admin" data-view="admin"
+            >⚙️ Admin</a
+          >
+        </li>
+
         <li class="auth-item">
           <a href="#" class="nav-link" data-view="register">Registrar</a>
         </li>
@@ -197,7 +204,7 @@
           <div class="contact-card">
             <span class="contact-icon">📍</span>
             <h3>Dirección</h3>
-            <p>Av. Principal 123, Ciudad</p>
+            <p>C.Pasteur-Bolivar Esquina de la Plaza Sucre</p>
           </div>
           <div class="contact-card">
             <span class="contact-icon">📞</span>
@@ -211,6 +218,123 @@
           </div>
         </div>
       </section>
+      <!-- VISTA: ADMIN -->
+      <section id="view-admin" class="view">
+        <div class="section-header">
+          <h2>Panel Admin</h2>
+          <p>Gestiona el catálogo de productos</p>
+        </div>
+
+        <!-- Formulario agregar / editar producto -->
+        <div class="admin-form-card">
+          <h3 id="admin-form-title">➕ Agregar Producto</h3>
+          <form id="admin-product-form" novalidate>
+            <input type="hidden" id="admin-product-id" />
+            <div class="admin-form-grid">
+              <div class="form-group">
+                <label for="admin-nombre">Nombre</label>
+                <input
+                  type="text"
+                  id="admin-nombre"
+                  placeholder="Ej. Cable HDMI 2m"
+                />
+                <small class="error-msg" id="err-admin-nombre"></small>
+              </div>
+              <div class="form-group">
+                <label for="admin-precio">Precio (Bs.)</label>
+                <input
+                  type="number"
+                  id="admin-precio"
+                  placeholder="Ej. 25.00"
+                  min="0"
+                  step="0.01"
+                />
+                <small class="error-msg" id="err-admin-precio"></small>
+              </div>
+              <div class="form-group">
+                <label for="admin-emoji">Emoji</label>
+                <input
+                  type="text"
+                  id="admin-emoji"
+                  placeholder="Ej. 🔌"
+                  maxlength="4"
+                />
+              </div>
+              <div class="form-group">
+                <label for="admin-categoria">Categoría</label>
+                <select id="admin-categoria">
+                  <option value="">Cargando...</option>
+                </select>
+                <small class="error-msg" id="err-admin-categoria"></small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="admin-descripcion">Descripción</label>
+              <textarea
+                id="admin-descripcion"
+                rows="2"
+                placeholder="Breve descripción del producto"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="admin-imagen">Imagen del producto</label>
+              <div class="admin-imagen-upload">
+                <label for="admin-imagen" class="admin-imagen-label">
+                  📁 Seleccionar imagen (PNG, JPG, WEBP)
+                </label>
+                <input
+                  type="file"
+                  id="admin-imagen"
+                  accept="image/png,image/jpeg,image/webp"
+                />
+              </div>
+              <img
+                id="admin-imagen-preview"
+                class="admin-imagen-preview"
+                src=""
+                alt="Preview"
+                style="display: none"
+              />
+              <small class="admin-imagen-hint"
+                >Si no subes imagen se usará el emoji como ícono</small
+              >
+            </div>
+            <div class="admin-form-actions">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                id="admin-submit-btn"
+              >
+                Guardar Producto
+              </button>
+              <button
+                type="button"
+                class="btn btn-admin-cancel"
+                id="admin-cancel-btn"
+                style="display: none"
+              >
+                Cancelar
+              </button>
+            </div>
+            <p id="admin-form-msg" class="success-msg"></p>
+          </form>
+        </div>
+
+        <!-- Lista de productos -->
+        <div class="admin-list-header">
+          <h3>📦 Productos actuales</h3>
+          <input
+            type="text"
+            id="admin-search"
+            class="admin-search"
+            placeholder="🔍 Buscar producto..."
+          />
+        </div>
+        <div id="admin-products-list" class="admin-products-list">
+          <p>Cargando productos...</p>
+        </div>
+      </section>
+
       <!-- Vista: AUTH (Login + Registro) -->
       <section id="view-auth" class="view">
         <div class="section-header">
@@ -294,6 +418,8 @@
     <script src="js/auth.js?v=20260521-2"></script>
     <!-- 4. App: usa 'db' y funciones de auth -->
     <script src="js/app.js?v=20260521-3"></script>
+    <!-- 5. Panel Admin -->
+    <script src="js/admin.js?v=20260618-1"></script>
     <!-- Script para el menú hamburguesa (no toca la lógica del carrito) -->
     <script>
       // Abrir/cerrar menú hamburguesa en móvil
